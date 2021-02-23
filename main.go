@@ -15,12 +15,15 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/pilu/fresh/runner"
 	"os"
+
+	"github.com/sigzegv/fresh/runner"
 )
 
 func main() {
 	configPath := flag.String("c", "", "config file path")
+	appArgs := flag.String("a", "", "forwarded arguments")
+
 	flag.Parse()
 
 	if *configPath != "" {
@@ -31,6 +34,8 @@ func main() {
 			os.Setenv("RUNNER_CONFIG_PATH", *configPath)
 		}
 	}
+
+	os.Setenv("APP_ARGS", *appArgs)
 
 	runner.Start()
 }

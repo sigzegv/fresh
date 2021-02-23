@@ -1,14 +1,25 @@
 package runner
 
 import (
+	"fmt"
 	"io"
+	"os"
 	"os/exec"
+	"strings"
 )
 
 func run() bool {
 	runnerLog("Running...")
 
-	cmd := exec.Command(buildPath())
+	appArgs := os.Getenv("APP_ARGS")
+	fmt.Println(appArgs)
+
+	args := []string{}
+	if appArgs != "" {
+		args = strings.Split(appArgs, " ")
+	}
+
+	cmd := exec.Command(buildPath(), args...)
 
 	stderr, err := cmd.StderrPipe()
 	if err != nil {
